@@ -1,6 +1,6 @@
 # Codesign macOS application with CMake
 
-This project illustrate how could we codesign a macOS application with CMake.
+This project illustrates how we could codesign a macOS application with CMake.
 
 In this project will try to codesign a basic CLI application written in C++.
 
@@ -28,7 +28,7 @@ In this project will try to codesign a basic CLI application written in C++.
    $ cmake .. -GXcode -DTEAM_ID=<YOUR TEAM-ID>
    ```
 
-   For example if you certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`.
+   For example if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`.
 
    You will use in this way:
    ```sh
