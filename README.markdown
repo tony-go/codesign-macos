@@ -33,7 +33,7 @@ In this project will try to codesign a basic CLI application written in C++.
    $ cmake .. -GXcode -DTEAM_ID=X4MF6H9XZ6
    ```
    
-   > Note: If you use an "Apple Developement" certificate, You'll have to go to the "Keychain Access"
+   > Note: If you use an "Apple Development" certificate, You'll have to go to the "Keychain Access"
    > and look at the "Get Info" menu, then you'll get the "Organisational Unit" that you'll use.
    ![Screenshot 2023-06-02 at 12 33 18](https://github.com/tony-go/codesign-macos/assets/22824417/6d16f344-281d-4e67-a910-42a9b739ce71)
 
