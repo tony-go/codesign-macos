@@ -4,7 +4,7 @@ CPACK=cpack
 
 PRESET=Release
 
-all: configure build package verify sign-dmg notarize staple verify-staple verify-notarization
+all: configure build package verify sign-dmg notarize staple verify-notarization
 
 configure:
 	$(CMAKE) -G Xcode -B dist -DTEAM_ID=$(TEAM_ID) -DCMAKE_BUILD_TYPE=$(PRESET)
@@ -21,18 +21,15 @@ sign-dmg: dist
 verify: dist
 	$(CODESIGN) --verify --verbose=2 ./dist/Release/MyMacOSApp.app
 
-notarize: dist/mymacosapp-0.1.1-Darwin.dmg
+notarize: dist/MyMacOSApp-0.1.1-Darwin.dmg
 	xcrun notarytool submit ./dist/MyMacOSApp-0.1.1-Darwin.dmg \
 		--keychain-profile "$(KEYCHAIN_PROFILE)" \
 		--wait
 
-staple: dist/mymacosapp-0.1.1-Darwin.dmg
+staple: dist/MyMacOSApp-0.1.1-Darwin.dmg
 	xcrun stapler staple ./dist/MyMacOSApp-0.1.1-Darwin.dmg
 
-verify-staple: dist/mymacosapp-0.1.1-Darwin.dmg
-	xcrun stapler validate ./dist/MyMacOSApp-0.1.1-Darwin.dmg
-
-verify-notarization: dist/mymacosapp-0.1.1-Darwin.dmg
+verify-notarization: dist/MyMacOSApp-0.1.1-Darwin.dmg
 	xcrun spctl --assess --type open --context context:primary-signature --ignore-cache --verbose=2 ./dist/MyMacOSApp-0.1.1-Darwin.dmg
 
 run: dist/Release/MyMacOSApp.app
