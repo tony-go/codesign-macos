@@ -1,8 +1,8 @@
 # Codesign macOS application with CMake
 
-This project illustrates how we could codesign a macOS application with CMake.
+This project illustrates how we could codesign and notarize a macOS application with CMake.
 
-In this project will try to codesign a basic CLI application written in Objective-C.
+In this project will try to codesign and notarize a basic application written in Objective-C.
 
 ## Requirements
 
