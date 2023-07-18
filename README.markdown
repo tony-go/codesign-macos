@@ -2,28 +2,28 @@
 
 This project illustrates how we could codesign a macOS application with CMake.
 
-In this project will try to codesign a basic CLI application written in C++.
+In this project will try to codesign a basic CLI application written in Objective-C.
 
 ## Requirements
 
 - CMake
 - Xcode
 
-I use a `Makefile` for convenience.
+We'll use a `Makefile` for convenience.
 
 ## Codesign the application
 
 Build, codesign and run your application:
 
 ```sh
-TEAM_ID=<YOUR TEAM-ID> make
+TEAM_ID=<YOUR TEAM-ID> make codesign-only
 ```
 
 For example if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`.
 
 You will use in this way:
 ```sh
-TEAM_ID=X4MF6H9XZ6 make
+TEAM_ID=X4MF6H9XZ6 make codesign-only
 ```
 
 > Note: If you use an "Apple Development" certificate, You'll have to go to the "Keychain Access"
@@ -34,7 +34,7 @@ TEAM_ID=X4MF6H9XZ6 make
 but if you are curious, you can see the command in the logs:
 
 ```text
-CodeSign .../codesign-macos/dist/Debug/MyCLIApp (in target 'MyCLIApp' from project 'MyCLIApp')
+CodeSign .../codesign-macos/dist/Debug/MyMacOSApp (in target 'MyCLIApp' from project 'MyCLIApp')
     cd .../codesign-macos
 
     Signing Identity:     <YOUR CERTIFICATE>
@@ -42,17 +42,23 @@ CodeSign .../codesign-macos/dist/Debug/MyCLIApp (in target 'MyCLIApp' from proje
    <THE COMMAND>
 ```
 
-> Note: The CLI binary is available at `./dist/Debug/MyCLIApp`
+> Note: The CLI binary is available at `./dist/Debug/MyMacOSApp`
 
-## Check codesign
+### Codesign the disk image
+
+```shell
+codesign --force --verbose=2 --sign $TEAM_ID./dist/MyMacOSApp-0.1.1-Darwin.dmg
+```
+
+### Check codesign
 
 The codesign verification is already done while running `make`, but 
 you can use the following commands to check that the binary is properly codesigned.
 
-### `codesign --verify`
+#### for the `.app`
 
 ```sh
-$ codesign --verify --verbose=2 ./dist/Debug/MyCLIApp
+$ codesign --verify --verbose=2 ./dist/Debug/MyMacOSApp
 ```
 
 > Note: that is the one I used in the Makefile
@@ -60,16 +66,24 @@ $ codesign --verify --verbose=2 ./dist/Debug/MyCLIApp
 You should see something like:
 
 ```text
-./dist/Debug/MyCLIApp: valid on disk
-./dist/Debug/MyCLIApp: satisfies its Designated Requirement
+./dist/Debug/MyMacOSApp: valid on disk
+./dist/Debug/MyMacOSApp: satisfies its Designated Requirement
 ```
 
-### `codesign --display`
+#### for the `.dmg`
+
+Same as `.app` but with the `.dmg` path.
+
+```sh
+$ codesign --verify --verbose=2 ./dist/Debug/MyMacOSApp-0.1.1-Darwin.dmg
+```
+
+#### `codesign --display` (optional)
 
 This command will show more information about the signature.
 
 ```sh
-$ codesign --display --verbose=2 ./dist/Debug/MyCLIApp
+$ codesign --display --verbose=2 ./dist/Debug/MyMacOSApp
 ```
 
 You should check in the console and see something like:
@@ -78,3 +92,37 @@ You should check in the console and see something like:
 Authority=Developer ID Application: <YOUR NAME> (<TEAM-ID>)
 ```
 
+## Notarize applicaiton
+
+> If you want to do the whole tutorial, please be sure that you are member of the 
+Apple developer program that will allow you to generate a Developer ID.
+
+### Create a keychain profile (store-credential)
+
+```shell
+xcrun notarytool store-credentials "KC_PROFILE" \
+  --apple-id <APPLE_ID> \ 
+  --team-id X4MF6H9XZ6  \
+  --password <APP_SPECIFIC_PASSWORD>
+```
+
+Aiming to perform this store-credential command you need three piece of information:
+- your Apple identifier, probably the mail you use for loggin
+- the team ID, for example if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`
+the team ID is: `X4MF6H9XZ6`
+- an app-specific password: https://support.apple.com/en-us/HT204397
+
+```shell
+TEAM_ID=X4MF6H9XZ6 KEYCHAIN_PROFILE="KC_PROFILE" make
+```
+
+This command will perform:
+
+- build
+- codesign
+- codesign verification
+- notarization
+- stappling
+- notarization verification
+
+If you want to dig more, look at the `Makefile`.
