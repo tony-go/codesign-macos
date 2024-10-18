@@ -19,14 +19,14 @@ Build, codesign and run your application:
 TEAM_ID=<YOUR TEAM-ID> make codesign-only
 ```
 
-For example if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`.
+For example, if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`.
 
-You will use in this way:
+You will use it this way:
 ```sh
 TEAM_ID=X4MF6H9XZ6 make codesign-only
 ```
 
-> Note: If you use an "Apple Development" certificate, You'll have to go to the "Keychain Access"
+> Note: If you use an "Apple Development" certificate, you'll have to go to the "Keychain Access" app
 > and look at the "Get Info" menu, then you'll get the "Organisational Unit" that you'll use.
 ![Screenshot 2023-06-02 at 12 33 18](https://github.com/tony-go/codesign-macos/assets/22824417/6d16f344-281d-4e67-a910-42a9b739ce71)
 
@@ -92,7 +92,7 @@ You should check in the console and see something like:
 Authority=Developer ID Application: <YOUR NAME> (<TEAM-ID>)
 ```
 
-## Notarize applicaiton
+## Notarize application
 
 > If you want to do the whole tutorial, please be sure that you are member of the 
 Apple developer program that will allow you to generate a Developer ID.
@@ -106,8 +106,8 @@ xcrun notarytool store-credentials "KC_PROFILE" \
   --password <APP_SPECIFIC_PASSWORD>
 ```
 
-Aiming to perform this store-credential command you need three piece of information:
-- your Apple identifier, probably the mail you use for loggin
+Aiming to perform this store-credential command, you need three pieces of information:
+- your Apple identifier, probably the email you use for login
 - the team ID, for example if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`
 the team ID is: `X4MF6H9XZ6`
 - an app-specific password: https://support.apple.com/en-us/HT204397
@@ -122,7 +122,7 @@ This command will perform:
 - codesign
 - codesign verification
 - notarization
-- stappling
+- stapling
 - notarization verification
 
 If you want to dig more, look at the `Makefile`.

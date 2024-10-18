@@ -27,7 +27,7 @@ set_target_properties(${APP_NAME} PROPERTIES
     XCODE_ATTRIBUTE_CODE_SIGN_INJECT_BASE_ENTITLEMENTS "NO"
 )
 
-# This line ensure that .app will be bundled in the dmg
+# This line ensures that .app will be bundled in the dmg
 install(TARGETS ${APP_NAME} BUNDLE DESTINATION ".")
 
 target_link_libraries(${APP_NAME} "-framework Cocoa")
