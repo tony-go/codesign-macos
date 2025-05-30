@@ -92,7 +92,7 @@ You should check in the console and see something like:
 Authority=Developer ID Application: <YOUR NAME> (<TEAM-ID>)
 ```
 
-## Notarize applicaiton
+## Notarize application
 
 > If you want to do the whole tutorial, please be sure that you are member of the 
 Apple developer program that will allow you to generate a Developer ID.
@@ -107,7 +107,7 @@ xcrun notarytool store-credentials "KC_PROFILE" \
 ```
 
 Aiming to perform this store-credential command you need three piece of information:
-- your Apple identifier, probably the mail you use for loggin
+- your Apple identifier, probably the mail you use for login
 - the team ID, for example if your certificate is: `Developer ID Application: JOHN, DOE (X4MF6H9XZ6)`
 the team ID is: `X4MF6H9XZ6`
 - an app-specific password: https://support.apple.com/en-us/HT204397
@@ -122,7 +122,7 @@ This command will perform:
 - codesign
 - codesign verification
 - notarization
-- stappling
+- stapling
 - notarization verification
 
 If you want to dig more, look at the `Makefile`.
